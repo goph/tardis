@@ -5,8 +5,16 @@ import "time"
 // SystemClock uses the real time for telling the time and sleeping.
 var SystemClock = ClockFunc(time.Now, time.Sleep)
 
-// Clock tells the current time.
+// Clock provides various time keeping features, such as:
+// 		- telling the current time
+// 		- sleeping for a given duration
 type Clock interface {
+	Timepiece
+	Sleeper
+}
+
+// Timepiece tells the current time.
+type Timepiece interface {
 	// Now tells the current time.
 	Now() time.Time
 }
@@ -23,7 +31,7 @@ type clockFunc struct {
 }
 
 // ClockFunc returns a new struct from the passed functions.
-func ClockFunc(nowFn func() time.Time, sleepFn func(time.Duration)) *clockFunc {
+func ClockFunc(nowFn func() time.Time, sleepFn func(time.Duration)) Clock {
 	return &clockFunc{nowFn, sleepFn}
 }
 
