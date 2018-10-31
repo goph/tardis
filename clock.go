@@ -2,9 +2,6 @@ package tardis
 
 import "time"
 
-// SystemClock uses the real time for telling the time and sleeping.
-var SystemClock = ClockFunc(time.Now, time.Sleep)
-
 // Clock provides various time keeping features, such as:
 // 		- telling the current time
 // 		- sleeping for a given duration
