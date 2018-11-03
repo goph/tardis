@@ -21,3 +21,20 @@ func (*systemClock) Now() time.Time {
 func (*systemClock) Sleep(d time.Duration) {
 	time.Sleep(d)
 }
+
+// Ticker creates a Ticker with a period defined by the duration.
+func (*systemClock) Ticker(d time.Duration) Ticker {
+	return &ticker{time.NewTicker(d)}
+}
+
+type ticker struct {
+	t *time.Ticker
+}
+
+func (t *ticker) Chan() <-chan time.Time {
+	return t.t.C
+}
+
+func (t *ticker) Stop() {
+	t.t.Stop()
+}
