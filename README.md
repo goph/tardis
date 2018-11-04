@@ -7,6 +7,41 @@
 
 **Time machine for your application to control time.**
 
+## Best practices
+
+One should not create a hard dependency on this library in code. Instead custom, private interfaces
+should be created which is compatible with this library or can wrap it with a simple adapter.
+
+For example:
+
+```go
+package main
+
+import(
+	"time"
+	
+	"github.com/goph/tardis"
+)
+
+type myClock interface {
+	Now() time.Time
+}
+
+type myService struct {
+	clock myClock
+}
+
+func newMyService(clock myClock) *myService {
+	return &myService{
+		clock: clock,
+	}
+}
+
+func main() {
+	service := newMyService(tardis.SystemClock)
+}
+```
+
 
 ## Development
 
